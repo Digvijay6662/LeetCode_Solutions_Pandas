@@ -1,0 +1,89 @@
+177. Nth Highest Salary
+Medium
+1.7K
+875
+Companies
+SQL Schema
+Table: Employee
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| salary      | int  |
++-------------+------+
+id is the primary key (column with unique values) for this table.
+Each row of this table contains information about the salary of an employee.
+ 
+
+Write a solution to find the nth highest salary from the Employee table. If there is no nth highest salary, return null.
+
+The result format is in the following example.
+
+ 
+
+Example 1:
+
+Input: 
+Employee table:
++----+--------+
+| id | salary |
++----+--------+
+| 1  | 100    |
+| 2  | 200    |
+| 3  | 300    |
++----+--------+
+n = 2
+Output: 
++------------------------+
+| getNthHighestSalary(2) |
++------------------------+
+| 200                    |
++------------------------+
+Example 2:
+
+Input: 
+Employee table:
++----+--------+
+| id | salary |
++----+--------+
+| 1  | 100    |
++----+--------+
+n = 2
+Output: 
++------------------------+
+| getNthHighestSalary(2) |
++------------------------+
+| null                   |
++------------------------+
+
+
+Solution 1:
+
+import pandas as pd
+
+def nth_highest_salary(employee: pd.DataFrame, N: int) -> pd.DataFrame:
+    salaries = employee['salary'].sort_values(ascending=False).drop_duplicates()
+    size = len(salaries)
+    
+    if N > size:
+        return pd.DataFrame([None], columns=[f'getNthHighestSalary{N}'])
+    else:
+        nth = salaries.iloc[N - 1]
+        return pd.DataFrame([nth], columns=[f'getNthHighestSalary{N}'])
+
+
+Solution 2:
+
+import pandas as pd
+
+def nth_highest_salary(employee: pd.DataFrame, N: int) -> pd.DataFrame:
+    salary = employee.sort_values(by = 'salary', ascending = False)['salary'].unique()
+    size = len(salary)
+    if N > size:
+        return pd.DataFrame([None], columns = [f'getNthHighestSalary{N}'])
+    else:
+        s = salary[N - 1]
+        return pd.DataFrame([s], columns = [f'getNthHighestSalary{N}'])
+
+
